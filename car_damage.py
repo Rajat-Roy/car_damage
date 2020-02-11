@@ -257,8 +257,10 @@ def Inference(weights_path, image_path):
         result = np.where(mask, outimg, img_yuv).astype(np.uint8)
         
         
-        damages = np.sum(mask)
-        damages = damages*100/(np.prod(mask.shape)/3)
+        y = np.bincount(mask.reshape(-1))
+        
+        total = y[0]+y[-1]
+        damages = y[-1]*100/total
         
         
         print("\nTotal image area: {0}x{1} pixels\n".format(mask.shape[0], mask.shape[1] ))
@@ -358,8 +360,10 @@ def Inference_Multi(weights_path, images_path, verbose=1, batch_size=1):
 
                 #=========================             
 
-                damages = np.sum(mask)
-                damages = 100-damages*100/(np.prod(mask.shape)/3)
+                y = np.bincount(mask.reshape(-1))
+
+                total = y[0]+y[-1]
+                damages = y[-1]*100/total
 
                 results.append({"image": np.where(mask, outimg, img_yuv).astype(np.uint8),
                                 "name": image_paths[i+start],
