@@ -257,12 +257,12 @@ def Inference(weights_path, image_path):
         result = np.where(mask, outimg, img_yuv).astype(np.uint8)
         
         
-        potholes = np.sum(mask)
-        potholes = potholes*100/(np.prod(mask.shape)/3)
+        damages = np.sum(mask)
+        damages = damages*100/(np.prod(mask.shape)/3)
         
         
         print("\nTotal image area: {0}x{1} pixels\n".format(mask.shape[0], mask.shape[1] ))
-        print("pothole area: {0:.2f}% (blue)\n".format(potholes))
+        print("damage area: {0:.2f}% (blue)\n".format(damages))
         
     else:
         result = image.astype(np.uint8)
