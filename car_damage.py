@@ -359,7 +359,7 @@ def Inference_Multi(weights_path, images_path, verbose=1, batch_size=1):
                 #=========================             
 
                 damages = np.sum(mask)
-                damages = damages*100/(np.prod(mask.shape)/3)
+                damages = 1-damages*100/(np.prod(mask.shape)/3)
 
                 results.append({"image": np.where(mask, outimg, img_yuv).astype(np.uint8),
                                 "name": image_paths[i+start],
