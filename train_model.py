@@ -78,7 +78,7 @@ class CarConfig(Config):
 
 class CarDataset(utils.Dataset):
 
-    def load_tissue(self, dataset_dir, subset):
+    def load_car(self, dataset_dir, subset):
         """Load a subset of the dataset.
         dataset_dir: Root directory of the dataset.
         subset: Subset to load: train or val
@@ -177,12 +177,12 @@ def train(model):
     """Train the model."""
     # Training dataset.
     dataset_train = CarDataset()
-    dataset_train.load_tissue(args.dataset, "train")
+    dataset_train.load_car(args.dataset, "train")
     dataset_train.prepare()
 
     # Validation dataset
     dataset_val = CarDataset()
-    dataset_val.load_tissue(args.dataset, "val")
+    dataset_val.load_car(args.dataset, "val")
     dataset_val.prepare()
 
     # *** This training schedule is an example. Update to your needs ***
@@ -301,47 +301,6 @@ def detect_and_color_splash(model, image_path=None, video_path=None):
         vwriter.release()
     print("Saved to ", file_name)
 
-    
-    
-############################################################
-#  Inference
-############################################################
-def Inference(model, image):
-    class InferenceConfig(TissueConfig):
-        # Set batch size to 1 since we'll be running inference on
-        # one image at a time. Batch size = GPU_COUNT * IMAGES_PER_GPU
-        GPU_COUNT = 1
-        IMAGES_PER_GPU = 1
-
-    config = InferenceConfig()
-    config.display()
-
-    # Create model
-    model = modellib.MaskRCNN(mode="inference", config=config,
-                                  model_dir=DEFAULT_LOGS_DIR)
-
-    weights_path = "../../logs/balloon20200201T1505/mask_rcnn_balloon_0030.h5"
-    image_path = "../../datasets/tissue/val/84.jpg"
-
-
-    # Load weights
-    model.load_weights(weights_path, by_name=True)
-
-    # Train or evaluate
-
-    # Run model detection and generate the color splash effect
-    # Read image
-    image = skimage.io.imread(image_path)
-    # Detect objects
-    r = model.detect([image], verbose=1)[0]
-    # Color splash
-    splash = color_splash(image, r['masks'])
-    # Save output
-    # file_name = "splash_{:%Y%m%dT%H%M%S}.png".format(datetime.datetime.now())
-    # skimage.io.imsave(file_name, splash)
-    return splash
-
-
 ############################################################
 #  Training
 ############################################################
@@ -357,7 +316,7 @@ if __name__ == '__main__':
                         help="'train' or 'splash'")
     parser.add_argument('--dataset', required=False,
                         metavar="/path/to/car_damage/dataset/",
-                        help='Directory of the tissue dataset')
+                        help='Directory of the car dataset')
     parser.add_argument('--weights', required=True,
                         metavar="/path/to/weights.h5",
                         help="Path to weights .h5 file or 'coco'")
