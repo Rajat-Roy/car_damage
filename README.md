@@ -27,6 +27,6 @@ jupyter notebook
 ```
 In the jupyter app directory listing click and run the `car_damage_demo.ipynb` file.
 
-Change the file paths accordingly.
+Change the file paths in the notebook accordingly.
 
 Execute the code cells.
