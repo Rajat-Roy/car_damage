@@ -5,7 +5,8 @@ The following code adapts from the [Mask_RCNN](https://arxiv.org/abs/1703.06870)
 *    Main source repository: https://github.com/matterport/Mask_RCNN
 
 #### Run inference on images
-Prepare a python 3.7 environment
+Prepare a python 3.7 environment.
+
 Open a terminal and execute the following lines:
 ```
 git clone https://github.com/Rajat-Roy/car_damage.git
@@ -25,6 +26,7 @@ Start the notebook server:
 jupyter notebook
 ```
 In the jupyter app directory listing click and run the `car_damage_demo.ipynb` file.
+
 Change the file paths accordingly.
 
 Execute the code cells.
